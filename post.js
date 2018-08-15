@@ -1,5 +1,5 @@
-const photoLinksRaw = document.querySelectorAll(".photos_row a");
-const photoLinks = [...photoLinksRaw];
+const likesRaw = document.querySelectorAll(".like.active");
+const likes = [...likesRaw];
 
 const waitFor = condition => new Promise(resolve => {
   const wait = setInterval(() => {
@@ -25,15 +25,13 @@ const click = async (selector, condition) => {
   return waitFor(() => condition(element));
 };
 
-const dislike = async (photoLink) => {
-  await click(photoLink, () => document.querySelector("#layer_wrap").style.display == 'block');
-  await click('.like.active', element => !element.classList.contains('active'));
+const dislike = async (selector) => {
+  await click(selector, element => !element.classList.contains('active'));
   await waitForElement('.recaptcha', true);
-  await click('.pv_close_btn', () => document.querySelector("#layer_wrap").style.display == 'none');
 };
 
 (async () => {
-  for (let i = 0; i < photoLinks.length; i++) {
-    await dislike(photoLinks[i]);
+  for (let i = 0; i < likes.length; i++) {
+    await dislike(likes[i]);
   }
 })();
